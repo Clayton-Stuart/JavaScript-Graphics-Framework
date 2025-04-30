@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JS Grid Graphics and Array Generator</title>
+    <style type="text/css">
+        html, body, div, span, applet, object, iframe, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            font-size: 100%;
+            vertical-align: baseline;
+            background: transparent;
+        }
+
+        .links > a {
+            margin: 1em;
+            margin-right: 2em;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .section {
+            font-size: 1.2em;
+            margin: 2em;
+        }
+        code {
+            background-color: rgb(58, 58, 58);
+            margin-top: 1em;
+            margin-bottom: 2em;
+            padding: 0.5em;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="top" class="links">
+        <a href="#overview">Overview</a>
+        <a href="#init">init()</a>
+        <a href="#debugGrid">debugGrid()</a>
+        <a href="#clearGrid">clearGrid()</a>
+        <a href="#grabPixel">grabPixel()</a>
+        <a href="#grabBlock">grabBlock()</a>
+        <a href="#changeBlockColor">changeBlockColor()</a>
+        <a href="#revertBlock">revertBlock()</a>
+        <a href="#returnGridSize">returnGridSize()</a>
+        <a href="#setBackgroundColor">setBackgroundColor()</a>
+        <a href="#setBackgroundImage">setBackgroundImage()</a>
+        <a href="#registerEntity">registerEntity()</a>
+        <a href="#deleteEntity">deleteEntity()</a>
+        <a href="#drawEntity">drawEntity()</a>
+        <a href="#getColors">getColors()</a>
+        <a href="#sleep">async sleep()</a>
+        <a href="#getRandomInt">getRandomInt()</a>
+        <a href="#rectanglesCollide">rectanglesCollide()</a>
+        <a href="#getPressedKeys">Keys System</a>
+        <a href="#arrayGenerator">Using the Array Generator</a>
+        <a href="#defaultColor">default-color Attribute</a>
+        <a href="#coordinateSystem">Coordinate System</a>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="overview">
+        <u><h1>Overview</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            The purpose of this framework is to provide a simple interface to create graphical elements composed of grids of colored pixels. 
+            There are a variety of methods to interact, write to, and read data from the grid. 
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="init">
+        <u><h1>init()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            To use the framework, it must be included in an html document. 
+        </p>
+
+        <code>
+            &lt;script src="grid-graphics.js"&gt;&lt;/script&gt;
+        </code>
+
+        <br><br>
+
+        <p class="description">
+            The framework works by using a "div" element with an id, and turning that into a grid. To start, create a div element in your document and give it an id.
+            To initialize the grid, use the init() function.
+        </p>
+
+            <code>init(id, size, gridSize, forceSquare, debug)</code><br><br>
+
+        <p class="description">
+            <ul>
+                <li>"id" is the id of the grid</li>
+                <li>"size" is an array of two values. For example: [1000, 700] where 1000 is the width of the grid in px and 700 is the height of the grid in px</li>
+                <li>"gridSize" is one value. It is how many rows tall the grid will be. If gridSize = 15, the grid will be 15 rows tall, and how many columns is automatically filled so that the width of each column most closely matches the height of each r</li>
+                <li>"forceSquare" is set to false by default. by setting it to true, it ensures the width of each column matches exactly the height of each row. If it does not divide the grid perfectly, there will be a leftover less than the width of one column</li>
+                <li>"debug" is set to false by default. By setting it to true, it makes every cell on the grid a different color from its neighbor. Any excess if forceSquare is true is marked and black and grey</li>
+            </ul>
+        </p>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="debugGrid"></div>
+        <u><h1>debugGrid()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            This function does the exact same thing as the "debug" option in the <a href="#init">init()</a> function. Adds the red, blue, and green pixels back to the grid along with the black and grey background for extra space with <a href="#init">forceSquare</a>
+        </p>
+        <code>debugGrid(id)</code><br><br>
+        <p class="decription">
+            "id" is the ID of the grid
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="clearGrid">
+        <u><h1>clearGrid()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            This function removes any colors from the grid including the black and grey background for extra space with <a href="#init">forceSquare</a> from <a href="#init">debug</a> or <a href="#debugGrid">debugGrid</a>. Also resets all <a href="#default-color">default-color</a> attributes back to white
+        </p>
+        <code>clearGrid(id)</code><br><br>
+        <p class="decription">
+            "id" is the ID of the grid
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="grabPixel">
+        <u><h1>grabPixel()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            This function return a pixel in the form of a div element when called and given accurate <a href="#coordinateSystem">coordinates</a>. 
+        </p>
+        <code>grabPixel(id, x, y)</code><br><br>
+        <p class="decription">
+            "id" is the ID of the grid<br>
+            "x" and "y" are the <a href="#coordinateSystem">coordinates</a> of the pixel.
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="grabBlock">
+        <u><h1>grabBlock()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            This function return a block in the form of a 2d array of div elements when called and given a pair of accurate <a href="#coordinateSystem">coordinates</a>. This array will be used in many of the other functions. 
+        </p>
+        <code>grabBlock(id, x1, y1, x2, y2)</code><br><br>
+        <p class="description">
+            "id" is the ID of the grid<br>
+            "x1" and "y1" are the <a href="#coordinateSystem">coordinates</a> of the start pixel of the block. Must start in the top leftmost corner of the block<br>
+            "x2" and "y2" are the <a href="#coordinateSystem">coordinates</a> of the end pixel of the block. Must be the bottom rightmost corner of the block<br>
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="changeBlockColor">
+        <u><h1>changeBlockColor()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Change the color of the block of pixels. Takes a pixel array as returned by <a href="#grabBlock">grabBlock()</a> function.
+        </p>
+        <code>changeBlockColor(pixelArray)</code><br><br>
+        <p class="description">
+            pixelArray is a 2d array of pixels as returned by <a href="#grabBlock">grabBlock()</a>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+    <div class="section" id="revertBlock">
+        <u><h1>revertBlock</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Takes a pixel array as returned by <a href="#grabBlock">grabBlock()</a> function and changes the background color of each pixel the equal the value of the <a href="#defaultColor">default-color</a> attribute
+        </p>
+        <code>revertBlock(pixelArray)</code><br><br>
+        <p class="description">
+            "pixelArray" is a 2d array returned by <a href="#grabBlock">grabBlock()</a>
+    </div>
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="returnGridSize">
+        <u><h1>returnGridSize()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Returns the size of the grid. Gives width and height of the grid in pixels. Gives the width and height of each pixel in pixels. Gives how many elements wide and tall the grid is. 
+        </p>
+        <code>returnGridSize(id)</code><br><br>
+        <p class="description">
+            "id" is the ID of the grid<br><br><br>
+            returned values can be seperated by the following:
+            returnGridSize(id).gridWidth :: (Gives the width of the grid in pixels)
+            returnGridSize(id).gridHeight :: (Gives the height of the grid in pixels)
+            returnGridSize(id).pixelWidth :: (Gives the width of the a pixel in pixels)
+            returnGridSize(id).pixelHeight :: (Gives the height of the a pixel in pixels)
+            returnGridSize(id).pixelAmountWidth :: (How many elements wide the grid is)
+            returnGridSize(id).pixelAmountHeight :: (How many elements tall the grid is)
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="setBackgroundColor">
+        <u><h1>setBackgroundColor()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Fills the color of the grid, and sets the <a href="#defaultColor">default-color</a> attribute of each pixel
+        </p>
+        <code>setBackgroundColor(id, color)</code><br><br>
+        <p class="description">
+            "id" is the id of the grid<br>
+            "color" is the color to set the background<br>
+        </p>
+        
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="setBackgroundImage">
+        <u><h1>setBackgroundImage()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Takes an array of colors as given by the <a href="#arrayGenerator">Array Generator</a>. Sets the <a href="#defaultColor">default-color</a> attribute of each pixel of the grid to match the image.<br>
+            When creating the image with the <a href="#arrayGenerator">Array Generator</a>, use the pixel amount height and pixel amount width as returned by the <a href="#returnGridSize()">returnGridSize()</a> function. 
+        </p>
+        <code>setBackgroundImage(id, colorArray)</code><br><br>
+        <p class="description">
+            "id" is the id of the grid<br>
+            "colorArray" is the array of colors to set the background<br>
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="registerEntity">
+        <u><h1>registerEntity()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Stores a array of colors that can be called and drawn on the grid using the <a href="#drawEntity">drawEntity()</a> function. It is a 2d array of colors that can either be written, or generated using the <a href="#arrayGenerator">Array Generator</a>
+        </p>
+        <code>registerEntity(name, colorArray)</code><br><br>
+        <p class="description">
+            "name" is the name of the name of what the entity will be called<br>
+            "colorArray" is the array of colors to set the color<br>
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="deleteEntity">
+        <u><h1>deleteEntity()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Deletes a stored entity
+        </p>
+        <code>deleteEntity(name)</code><br><br>
+        <p class="description">
+            "name" is the name of the entity to be deleted<br>
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="drawEntity">
+        <u><h1>drawEntity()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Draws a stored entity on a grid
+        </p>
+        <code>drawEntity(id, name, x, y)</code><br><br>
+        <p class="description">
+            "id" is the id of the grid<br>
+            "name" is the name of the entity to be drawn<br>
+            "x" is the starting x position of the entity (top left)<br>
+            "y" is the starting y position of the entity (top left)<br>
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    
+
+
+    <div class="section" id="getColors">
+        <u><h1>getColors</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Returns every color value present in a given pixel array
+        </p>
+        <code>getColors(pixelArray)</code><br><br>
+        <p class="description">
+            "pixelArray" is the pixel array as returned by <a href="#grabBlock">grabBlock()</a>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="sleep">
+        <u><h1>sleep()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Pauses execution of a function for a given number of milliseconds
+        </p>
+        <code>sleep(ms)</code><br><br>
+        <p class="description">
+            "ms" is the number of milliseconds
+        </p>
+    </div>
+
+
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+    <div class="section" id="getRandomInt">
+        <u><h1>getRandomInt()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Generates a random integer between a given min and max
+        </p>
+        <code>getRandomInt(min, max)</code><br><br>
+        <p class="description">
+            both "min" and "max" are integers<br>
+            "max" must be larger than "min"
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+
+    <div class="section" id="rectanglesCollide">
+        <u><h1>rectanglesCollide()</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Returns a true or false value depending on if two given rectangles overlap
+        </p>
+        <code>rectanglesCollide(box1, box2)</code><br><br>
+        <p class="description">
+            box1 and box2 are arrays of rectangle coordinates. They will each contain 4 values representing the top left and bottom right corners of the two rectangles in the form of [x1, y1, x2, y2], for example: <br>
+            box1 = [2, 4, 9, 12]<br>
+            box2 = [5, 6, 14, 16]<br><br>
+            In this example, the top left corner of the box1 is (2, 4) and the bottom right corner of box1 is (9, 12)<br>
+            And for box2, the top left corner is (5, 6) and the bottom right corner is (14, 16)
+
+    </div>
+
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="getPressedKeys">
+        <u><h1>getPressedKeys</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Keeps track of all keys that are pressed. Call the function to get a list of every key that is pressed
+        </p>
+        <code>getPressedKeys()</code><br><br>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    
+
+
+    <div class="section" id="arrayGenerator">
+        <u><h1>Using the Array Generator</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            This is a HTML page that allows you to draw on a canvas and export it to an array that can then be used in the grid. 
+            To start, press the "start new grid" button and input a height and width. To change colors, click the different colored circles at the top of the page. 
+            By default each cell is filled with transparency. There isn't a way to see the difference between white and transparency. To fill with white, use the empty circle 
+            with the word "white" inside it. The fill with transparency, use the empty circle with the word "clear". To choose a color not available from the circles, use the 
+            circle labeled "CC" and input a color using hexadecimal notation (needs to have the "#" in front still). To export the grid, use the "export" button and copy into 
+            a program to use it. 
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="defaultColor">
+        <u><h1>default-color Attribute</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            default-color is an attribute that every pixel on the grid has. When the <a href="#revertBlock">revertBlock()</a> function is called, any affected pixels will have their 
+            color returned to the value of this attribute. 
+        </p>
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+    <div class="section" id="coordinateSystem">
+        <u><h1>Coordinate System</h1></u>
+        <a href="#top">Back to top</a>
+        <p class="description">
+            Coordinate (0, 0) starts in the top left of the grid. Y increases the further down, and X increases the further right
+    </div>
+
+
+
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+
+
+
+
+</body>
+</html>
+
+<!-- init() - id, size, gridSize, forceSquare, debug
+debugGrid() - id
+clearGrid() - id
+grabPixel() - id, x, y
+grabBlock() - id, x1, y1, x2, y2
+changeBlockColor() - pixelArray, color
+returnGridSize() - id
+setBackgroundColor() - id, color
+setBackgroundImage() - id, colorArray
+registerEntity() - name, colorArray
+deleteEntity() - name
+drawEntity() - id, name, x, y
+getColors() - pixelArray
+
+keys[]
+
+Array Generator -->
+
